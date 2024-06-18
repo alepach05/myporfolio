@@ -3,7 +3,7 @@
  * Plugin Name: My Widgets
  * Description: Un plugin personalizado para agregar widgets a Elementor.
  * Version: 1.0.0
- * Author: AndrÃ©s Sancho Rojas
+ * Author: Alejandro Pacheco Vargas
  */
 
 if (!defined("ABSPATH")) {
