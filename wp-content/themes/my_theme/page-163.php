@@ -1,0 +1,66 @@
+<?php
+
+if (!defined('ABSPATH')) {
+	exit; // Exit if accessed directly.
+}
+
+get_header(); ?>
+<?php if (astra_page_layout() == 'left-sidebar'): ?>
+	<?php get_sidebar(); ?>
+<?php endif ?>
+<div id="primary" <?php astra_primary_class(); ?>>
+	<?php
+	astra_primary_content_top();
+	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+	$args = [
+		'post_type' => 'proyecto',
+		'posts_per_page' => 10,
+		'paged' => $paged,
+	];
+	$query = new WP_Query($args);
+	?>
+	<div class="card-container">
+		<ul class="card-grid">
+			<?php
+			while ($query->have_posts()) {
+				$query->the_post();
+				?>
+				<li class="card">
+					<a href="<?php the_permalink(); ?>">
+						<?php echo get_the_post_thumbnail($post->ID, 'medium'); ?>
+						<div class="container">
+							<h2><?php the_title(); ?></h2>
+						</div>
+					</a>
+				</li>
+				<?php
+			}
+			wp_reset_postdata();
+			?>
+		</ul>
+	</div>
+	<div class="pagination">
+		<ul>
+			<?php
+			echo paginate_links(
+				array(
+					'total' => $query->max_num_pages,
+					'current' => $paged,
+					'format' => '?paged=%#%',
+				)
+			);
+			?>
+		</ul>
+	</div>
+	<?php
+	astra_primary_content_bottom();
+	?>
+</div><!-- #primary -->
+
+<?php
+if (astra_page_layout() == 'right-sidebar'):
+	get_sidebar();
+endif;
+
+get_footer();
+?>
